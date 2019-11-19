@@ -3,9 +3,12 @@ package com.example.expenseadmin.view.activities.Home;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.TextView;
 
 import com.example.expenseadmin.R;
 import com.example.expenseadmin.view.activities.signInUp.SignInActivity;
@@ -25,9 +28,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +48,9 @@ public class HomeActivity extends AppCompatActivity {
     NavigationView navigationView;
     @BindView(R.id.bottom_nav_view)
     BottomNavigationView navView;
+
+    TextView requestsCount;
+
     private Fragment currFragment;
     private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
 
@@ -60,11 +69,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void init() {
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Admin");
-        navDrawerConfig();
-        bottomNavConfig();
+        try {
+            ButterKnife.bind(this);
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Admin");
+            navDrawerConfig();
+            bottomNavConfig();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void bottomNavConfig() {
@@ -127,6 +141,7 @@ public class HomeActivity extends AppCompatActivity {
                 R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        drawer.setScrimColor(getResources().getColor(R.color.white));
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             AnimationStates states = AnimationStates.BOTTOM_TO_TOP;
@@ -151,6 +166,24 @@ public class HomeActivity extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.START);
             return true;
         });
+
+        //These lines should be added in the OnCreate() of your main activity
+        requestsCount = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.requests_nav));
+        //This method will initialize the count value
+        initializeRequestCountDrawer();
+    }
+
+    private void initializeRequestCountDrawer() {
+        try {
+            requestsCount.setGravity(Gravity.CENTER_VERTICAL);
+            requestsCount.setTypeface(null, Typeface.BOLD);
+            requestsCount.setTextColor(getResources().getColor(R.color.red));
+            requestsCount.setText("99+");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setFragments(Fragment fragment, AnimationStates state) {
@@ -204,7 +237,7 @@ public class HomeActivity extends AppCompatActivity {
             SearchView searchView =
                     (SearchView) menu.findItem(R.id.search).getActionView();
             searchView.setSearchableInfo(
-                    searchManager.getSearchableInfo(getComponentName()));
+                    Objects.requireNonNull(searchManager).getSearchableInfo(getComponentName()));
         } catch (Exception e) {
             e.printStackTrace();
         }

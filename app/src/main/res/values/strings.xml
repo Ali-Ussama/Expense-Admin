@@ -33,7 +33,10 @@
     <string name="website_text">Website</string>
     <string name="phone_number_text">Phone number</string>
     <string name="post_ad_text">Post Ad</string>
-    <string name="web_client_id" translatable="false">1008621442961-mgdc9bg43gb8rqr8205ksko3l58h5ol3.apps.googleusercontent.com</string>
+    <!--    <string name="web_client_id" translatable="false">1008621442961-mgdc9bg43gb8rqr8205ksko3l58h5ol3.apps.googleusercontent.com</string>-->
+
+    <string name="web_client_id" translatable="false">597970624733-iams1ops2gfg2n391pl1advgr1sn6g86.apps.googleusercontent.com</string>
+    <string name="client_secret" translatable="false">wGuMOzzL65mdZHl-iWMhqocB</string>
 
     <string name="facebook_app_id" translatable="false">406032423406906</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb406032423406906</string>
@@ -58,5 +61,12 @@
     <string name="gender_text">Male</string>
     <string name="search_title">Search</string>
     <string name="search_hint">type your search request</string>
+    <string name="add_place_nav_lbl">Add Place</string>
+    <string name="edit_place_nav_lbl">Edit Place</string>
+    <string name="requests_nav_lbl">Requests</string>
+    <string name="create_admin_nav_lbl">Create Admin</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
