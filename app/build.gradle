@@ -32,6 +32,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.1.0'
     implementation 'androidx.navigation:navigation-ui:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -46,13 +47,16 @@ dependencies {
     implementation 'com.github.mancj:SlimChart:0.1.2'
     //butter knife
     implementation 'com.jakewharton:butterknife:10.0.0'
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
     implementation 'com.mindorks.android:placeholderview:1.0.3'
+
     annotationProcessor 'com.mindorks.android:placeholderview-compiler:1.0.3'
 
     //zoom-in zoom-out for images
     implementation 'com.commit451:PhotoView:1.2.4'
+
     //Google Play services
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
@@ -63,6 +67,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:6.0.2'
+    implementation 'com.google.firebase:firebase-firestore:21.3.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
+
+    //multiDex
+    implementation 'com.android.support:multidex:1.0.3'
 
     //https://github.com/afollestad/material-dialogs
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'

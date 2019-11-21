@@ -212,33 +212,33 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void startSignInWithFB() {
-            try {
-                mCallbackManager = CallbackManager.Factory.create();
-                Log.i(TAG, "startSignInWithFB: init call back manager");
-                LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("email", "public_profile"));
-                Log.i(TAG, "startSignInWithFB: setting permissions to LoginManager  like email and profile");
-                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Log.i(TAG, "register callback  facebook:onSuccess:" + loginResult);
-                        handleAccessTokenFB(loginResult.getAccessToken());
-                        Log.i(TAG, "register callback onSuccess: calling method handleAccessTokenFB with a null GoogleSignInAccount");
-                    }
+        try {
+            mCallbackManager = CallbackManager.Factory.create();
+            Log.i(TAG, "startSignInWithFB: init call back manager");
+            LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("email", "public_profile"));
+            Log.i(TAG, "startSignInWithFB: setting permissions to LoginManager  like email and profile");
+            LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    Log.i(TAG, "register callback  facebook:onSuccess:" + loginResult);
+                    handleAccessTokenFB(loginResult.getAccessToken());
+                    Log.i(TAG, "register callback onSuccess: calling method handleAccessTokenFB with a null GoogleSignInAccount");
+                }
 
-                    @Override
-                    public void onCancel() {
-                        Log.d(TAG, "facebook:onCancel");
-                    }
+                @Override
+                public void onCancel() {
+                    Log.d(TAG, "facebook:onCancel");
+                }
 
-                    @Override
-                    public void onError(FacebookException error) {
-                        Log.i(TAG, "facebook:onError", error);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                @Override
+                public void onError(FacebookException error) {
+                    Log.i(TAG, "facebook:onError", error);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
     private void startSignInWithTwitter() {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
@@ -270,8 +270,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             // There's no pending result so you need to start the sign-in flow.
             // See below.
-            mAuth
-                    .startActivityForSignInWithProvider(/* activity= */ this, provider.build())
+            mAuth.startActivityForSignInWithProvider(/* activity= */ this, provider.build())
                     .addOnSuccessListener(
                             new OnSuccessListener<AuthResult>() {
                                 @Override
@@ -355,32 +354,46 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (requestCode == RC_SIGN_IN) {
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                task.addOnSuccessListener(googleSignInAccount ->
+                GoogleSignIn.getSignedInAccountFromIntent(data).addOnSuccessListener(googleSignInAccount ->
                         Log.i(TAG, "GoogleSignIn onSuccess(): is called"))
-                        .addOnCompleteListener(task1 ->
-                                Log.i(TAG, "GoogleSignIn onComplete(): is called")).
+                        .addOnCompleteListener(task1 -> {
+                            try {
+                                Log.i(TAG, "GoogleSignIn onComplete(): is called");
+                                if (task1.isComplete()) {
+                                    Log.i(TAG, "GoogleSignIn onComplete(): task is completed");
+
+                                } else if (task1.isSuccessful()) {
+                                    Log.i(TAG, "GoogleSignIn onComplete(): task is successful");
+
+                                } else if (task1.isCanceled()) {
+                                    Log.i(TAG, "GoogleSignIn onComplete(): task is canceled");
+                                }
+                                GoogleSignInAccount account = task1.getResult(ApiException.class);
+                                if (account != null) {
+                                    handleAccessTokenGoogle(account);
+                                    Log.i(TAG, "onActivityResult: calling handleAccessTokenFB for google sign in " + account);
+                                } else {
+                                    Toast.makeText(this, "account is null", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }).
                         addOnFailureListener(e -> {
                             Log.i(TAG, "GoogleSignIn onFailure(): is called");
                             e.printStackTrace();
                         });
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account != null) {
-                    handleAccessTokenGoogle(account);
-                    Log.i(TAG, "onActivityResult: calling handleAccessTokenFB for google sign in " + account);
-                } else {
-                    Toast.makeText(this, "account is null", Toast.LENGTH_SHORT).show();
-                }
+
             }
-        } catch (ApiException e) {
+        } catch (Exception e) {
             // Google Sign In failed, update UI appropriately
             e.printStackTrace();
             Log.w(TAG, "Google sign in failed", e);
             Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
         }
-        if(mCallbackManager != null){
+        if (mCallbackManager != null) {
             boolean b = mCallbackManager.onActivityResult(requestCode, resultCode, data);
-            Log.i(TAG, "onActivityResult: calling mCallBackManager "+b);
+            Log.i(TAG, "onActivityResult: calling mCallBackManager " + b);
         }
     }
 
