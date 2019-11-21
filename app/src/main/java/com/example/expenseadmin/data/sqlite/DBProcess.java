@@ -21,7 +21,7 @@ public class DBProcess {
 
         try {
             ContentValues cv = new ContentValues();
-
+            cv.put(DBConfig.LocationsTable.COLUMN_ID, locationModel.getId());
             cv.put(DBConfig.LocationsTable.COLUMN_PLACE_ID, locationModel.getPlaceID());
             cv.put(DBConfig.LocationsTable.COLUMN_COUNTRY, locationModel.getCountry());
             cv.put(DBConfig.LocationsTable.COLUMN_CITY, locationModel.getCity());
@@ -58,6 +58,7 @@ public class DBProcess {
         try {
             ContentValues cv = new ContentValues();
 
+            cv.put(DBConfig.PlacesTable.COLUMN_ID, placeModel.getId());
             cv.put(DBConfig.PlacesTable.COLUMN_Name, placeModel.getName());
             cv.put(DBConfig.PlacesTable.COLUMN_CATEGORY, placeModel.getCategory());
             cv.put(DBConfig.PlacesTable.COLUMN_DESCRIPTION, placeModel.getDescription());
@@ -88,6 +89,5 @@ public class DBProcess {
         }
     }
 
-    
 
 }

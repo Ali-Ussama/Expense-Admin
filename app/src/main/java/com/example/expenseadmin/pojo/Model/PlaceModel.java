@@ -30,6 +30,22 @@ public class PlaceModel {
 
     private ArrayList<ImageModel> imagesURL;
 
+    public PlaceModel(int id, String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl, String websiteUrl, ArrayList<LocationModel> locationModels, int likesCount, int okayCount, int dislikesCount, ArrayList<ImageModel> imagesURL) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.phoneNumber = phoneNumber;
+        this.description = description;
+        this.facebookUrl = facebookUrl;
+        this.twitterUrl = twitterUrl;
+        this.websiteUrl = websiteUrl;
+        this.locationModels = locationModels;
+        this.likesCount = likesCount;
+        this.okayCount = okayCount;
+        this.dislikesCount = dislikesCount;
+        this.imagesURL = imagesURL;
+    }
+
     public int getId() {
         return id;
     }

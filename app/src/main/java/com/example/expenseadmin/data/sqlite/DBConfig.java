@@ -16,6 +16,7 @@ public class DBConfig {
     private static final String INTEGER = " INTEGER";
     private static final String REAL = " REAL";
     private static final String NUMERIC = " NUMERIC";
+    private static final String PrimaryKeyAutoIncrement = "PRIMARY KEY AUTOINCREMENT,";
 
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor public.
@@ -69,7 +70,7 @@ public class DBConfig {
 
 
     private static final String SQL_CREATE_LOCATIONS_TABLE = "CREATE TABLE " + LocationsTable.TABLE_NAME + " (" +
-            LocationsTable.COLUMN_ID + INTEGER + "PRIMARY KEY AUTOINCREMENT," +
+            LocationsTable.COLUMN_ID + TEXT + "," +
             LocationsTable.COLUMN_PLACE_ID + INTEGER + "," +
             LocationsTable.COLUMN_COUNTRY + TEXT + "," +
             LocationsTable.COLUMN_CITY + TEXT + "," +
@@ -79,7 +80,7 @@ public class DBConfig {
 
 
     private static final String SQL_CREATE_PLACES_TABLE = "CREATE TABLE " + PlacesTable.TABLE_NAME + " (" +
-            PlacesTable.COLUMN_ID + INTEGER + "PRIMARY KEY AUTOINCREMENT," +
+            PlacesTable.COLUMN_ID + INTEGER + "," +
             PlacesTable.COLUMN_Name + TEXT + "," +
             PlacesTable.COLUMN_CATEGORY + TEXT + "," +
             PlacesTable.COLUMN_DESCRIPTION + TEXT + "," +
@@ -92,13 +93,13 @@ public class DBConfig {
             PlacesTable.COLUMN_DISLIKES_COUNT + INTEGER + ");";
 
     private static final String SQL_CREATE_REQUESTS_TABLE = "CREATE TABLE " + RequestsTable.TABLE_NAME + " (" +
-            RequestsTable.COLUMN_ID + INTEGER + "PRIMARY KEY AUTOINCREMENT," +
+            RequestsTable.COLUMN_ID + INTEGER + "," +
             RequestsTable.COLUMN_PLACE_ID + INTEGER + "," +
             RequestsTable.COLUMN_DATE + TEXT + "," +
             RequestsTable.COLUMN_User_Name + TEXT + ");";
 
     private static final String SQL_CREATE_IMAGES_TABLE = "CREATE TABLE " + ImagesTable.TABLE_NAME + " (" +
-            ImagesTable.COLUMN_ID + INTEGER + "PRIMARY KEY AUTOINCREMENT," +
+            ImagesTable.COLUMN_ID + INTEGER + PrimaryKeyAutoIncrement +
             ImagesTable.COLUMN_PLACE_ID + INTEGER + "," +
             ImagesTable.COLUMN_URL + TEXT + ");";
 

@@ -5,9 +5,9 @@ import android.os.Parcelable;
 
 public class LocationModel implements Parcelable {
 
-    private int id;
+    private String id;
 
-    private int placeID;
+    private String placeID;
 
     private String country;
 
@@ -19,10 +19,9 @@ public class LocationModel implements Parcelable {
 
     private double longitude;
 
-
     private LocationModel(Parcel in) {
-        id = in.readInt();
-        placeID = in.readInt();
+        id = in.readString();
+        placeID = in.readString();
         country = in.readString();
         city = in.readString();
         street = in.readString();
@@ -44,8 +43,8 @@ public class LocationModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeInt(placeID);
+        parcel.writeString(id);
+        parcel.writeString(placeID);
         parcel.writeString(country);
         parcel.writeString(city);
         parcel.writeString(street);
@@ -53,7 +52,7 @@ public class LocationModel implements Parcelable {
         parcel.writeDouble(longitude);
     }
 
-    public LocationModel(int id, int placeID, String country, String city, String street, double latitude, double longitude) {
+    public LocationModel(String id, String placeID, String country, String city, String street, double latitude, double longitude) {
         this.id = id;
         this.placeID = placeID;
         this.country = country;
@@ -63,19 +62,19 @@ public class LocationModel implements Parcelable {
         this.longitude = longitude;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getPlaceID() {
+    public String getPlaceID() {
         return placeID;
     }
 
-    public void setPlaceID(int placeID) {
+    public void setPlaceID(String placeID) {
         this.placeID = placeID;
     }
 
