@@ -2,14 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.expenseadmin"
+        applicationId "com.expense.expenseadmin"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -46,9 +48,9 @@ dependencies {
     // slim Chart
     implementation 'com.github.mancj:SlimChart:0.1.2'
     //butter knife
-    implementation 'com.jakewharton:butterknife:10.0.0'
+    implementation 'com.jakewharton:butterknife:10.2.0'
 
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 
     implementation 'com.mindorks.android:placeholderview:1.0.3'
 

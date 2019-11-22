@@ -61,34 +61,18 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:597970624733:android:c6b2cbe472732443d17b34",
+        "mobilesdk_app_id": "1:597970624733:android:f547418c2c53080fd17b34",
         "android_client_info": {
-          "package_name": "com.example.expenseadmin"
+          "package_name": "com.expense.expenseadmin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "597970624733-9nrhke2tjcgik4mpta4qculp18tum47u.apps.googleusercontent.com",
+          "client_id": "597970624733-6im0i385t02j5bjlnrt17pbtk4aml90d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.expenseadmin",
+            "package_name": "com.expense.expenseadmin",
             "certificate_hash": "6da74b1a273138d6fb940d286442bc12cd5a8945"
-          }
-        },
-        {
-          "client_id": "597970624733-v7rbsok714jhcfmdiisislsmhfb7cd71.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.expenseadmin",
-            "certificate_hash": "2e535fb298e212ec319306dccd4a238938756a4a"
-          }
-        },
-        {
-          "client_id": "597970624733-mcpiaovhqcnvjn2mjs832uqstv8u0l8q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.expenseadmin",
-            "certificate_hash": "c305cc9ae68a712f481122b5f77d315802ecffe6"
           }
         },
         {
