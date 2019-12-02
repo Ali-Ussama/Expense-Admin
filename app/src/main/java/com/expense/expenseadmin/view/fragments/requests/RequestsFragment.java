@@ -19,6 +19,10 @@ public class RequestsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static RequestsFragment newInstance() {
+
+        return new RequestsFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

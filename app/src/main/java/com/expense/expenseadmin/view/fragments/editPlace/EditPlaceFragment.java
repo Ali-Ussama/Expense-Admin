@@ -1,12 +1,11 @@
 package com.expense.expenseadmin.view.fragments.editPlace;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.expense.expenseadmin.R;
 
@@ -19,6 +18,10 @@ public class EditPlaceFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static EditPlaceFragment newInstance() {
+
+        return new EditPlaceFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

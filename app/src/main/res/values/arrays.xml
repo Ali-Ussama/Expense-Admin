@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="categories">
+        <item>@string/select_a_category</item>
+        <item>@string/coffee</item>
+        <item>@string/electronics</item>
+        <item>@string/restaurant</item>
+        <item>@string/clothes</item>
+        <item>@string/beauty</item>
+        <item>@string/others</item>
+
+    </array>
+
+</resources>

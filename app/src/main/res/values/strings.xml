@@ -38,6 +38,10 @@
     <string name="web_client_id" translatable="false">597970624733-iams1ops2gfg2n391pl1advgr1sn6g86.apps.googleusercontent.com</string>
     <string name="client_secret" translatable="false">wGuMOzzL65mdZHl-iWMhqocB</string>
 
+    <string name="here_app_code">A6nhvmYUla89AOo_la4voA</string>
+    <string name="here_app_id">OP8CUKtC1qXxcxK3J5xV</string>
+    <string name="here_license_key">e26iVdcq+zreHVPM+v+SS4fDENqphFzaAO/YT3MU0yrWX5lpIgDT+1FZfsAgHciF+nexBX4xnlMsIMMhReGitTE/H8/ltwe+e0Hqy3UFrgZDn02d69uafDfUENJnFPq3ErhRz/qqo3pVKZ2AA+h9/yvPOqpgQLmRncN0cxXzRY7rloeiLhSFKWDbup67DnAFZlhTHmiyM6fxBBbOsANCmtx5O1u7Pq50x7hbplBrTN8yyP9xCx2wbgTlKddu1p6fMmiv/leBNMqlKoZk2GoKdTR2zxVDk7Fd0IabWNZcNP09pu2N/w7rImdeF6oCyzrBpfIF1pTaVAoCj0apomn+dSkUGOZsQTfrhDUnbSPS7y6HpsaXhEEP9P94yzNdWHGNSIOTTXmBKXgwH+ocJK/4cUc/P0zUvCF+uyvqb9JDK2vN4tmDMSq5KtrFkhLSEIYVVAKxRK35nUj/JrfkJhicCHVCiW7ZZNfs8PNRzx5+2+1wwkHpMdzigKeoJdmQp2/jLchDeAJ+zuIpYMC9wsN5Ccmxe4LfsWIqy2j42g6RlZu+h7jurn74a5kNrYA5tWmmh+WDaEJkqezpn7e8TH4gFt6nmvI2WNoc1G7xAd7pkgmrbdOzlUX4kOkLC274QVPJncJ26mXmd6b1WqJIk+mwNOQafQ9kKdrskr0q6lF0sOY=</string>
+
     <string name="facebook_app_id" translatable="false">406032423406906</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb406032423406906</string>
     <string name="google_status_fmt" translatable="false">Google User: %s</string>
@@ -66,8 +70,13 @@
     <string name="requests_nav_lbl">Requests</string>
     <string name="create_admin_nav_lbl">Create Admin</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="oops_wait_for_more_places_to_visit">Oops!… \nWait for more places to visit!</string>
+    <string name="coffee">Cafe</string>
+    <string name="electronics">Electronics</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="clothes">Clothes</string>
+    <string name="beauty">Beauty</string>
+    <string name="others">Others</string>
+    <string name="place_name">Place Name</string>
+    <string name="oops_wait_for_more_places_to_visit">oops \nwait for more places to visit</string>
 
 </resources>

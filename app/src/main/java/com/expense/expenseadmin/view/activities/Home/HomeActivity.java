@@ -18,6 +18,8 @@ import com.expense.expenseadmin.pojo.Model.ImageModel;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.view.activities.signInUp.SignInActivity;
+import com.expense.expenseadmin.view.fragments.addPlace.AddPlaceFragment;
+import com.expense.expenseadmin.view.fragments.editPlace.EditPlaceFragment;
 import com.expense.expenseadmin.view.fragments.home.HomeFragment;
 import com.expense.expenseadmin.view.fragments.aboutUs.AboutUsFragment;
 import com.expense.expenseadmin.view.fragments.addProject.AddProjectFragment;
@@ -25,6 +27,7 @@ import com.expense.expenseadmin.view.fragments.contactUs.ContactUsFragment;
 import com.expense.expenseadmin.view.fragments.favorites.FavoriteFragment;
 import com.expense.expenseadmin.view.fragments.notifications.NotificationsFragment;
 import com.expense.expenseadmin.view.fragments.profile.ProfileFragment;
+import com.expense.expenseadmin.view.fragments.requests.RequestsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -180,22 +183,42 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
             navigationView.setNavigationItemSelectedListener(menuItem -> {
                 AnimationStates states = AnimationStates.BOTTOM_TO_TOP;
                 switch (menuItem.getItemId()) {
-                    case R.id.add_project_nav:
+
+                    case R.id.add_project_nav:// Add Project
                         if (currFragment instanceof AddProjectFragment) break;
                         setFragments(new AddProjectFragment(), states);
                         break;
-                    case R.id.about_us_nav:
+
+                    case R.id.add_place_nav:// Add Place
+                        if (currFragment instanceof AddPlaceFragment) break;
+                        setFragments(AddPlaceFragment.newInstance(), states);
+                        break;
+
+                    case R.id.edit_place_nav:// Requests
+                        if (currFragment instanceof EditPlaceFragment) break;
+                        setFragments(EditPlaceFragment.newInstance(), states);
+                        break;
+
+                    case R.id.requests_nav:// Requests
+                        if (currFragment instanceof RequestsFragment) break;
+                        setFragments(RequestsFragment.newInstance(), states);
+                        break;
+
+                    case R.id.about_us_nav:// Place
                         if (currFragment instanceof AboutUsFragment) break;
                         setFragments(new AboutUsFragment(), states);
                         break;
+
                     case R.id.contact_us_nav:
                         if (currFragment instanceof ContactUsFragment) break;
                         setFragments(new ContactUsFragment(), states);
                         break;
+
                     case R.id.sign_out:
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(HomeActivity.this, SignInActivity.class));
                         break;
+
                 }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
