@@ -1,4 +1,4 @@
-package com.expense.expenseadmin.adapters;
+package com.expense.expenseadmin.view.adapters;
 
 import android.content.Context;
 import android.content.Intent;

@@ -14,8 +14,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expense.expenseadmin.R;
-import com.expense.expenseadmin.adapters.LocationAdapter;
-import com.expense.expenseadmin.adapters.MyPagerAdapter;
+import com.expense.expenseadmin.view.adapters.LocationAdapter;
+import com.expense.expenseadmin.view.adapters.MyPagerAdapter;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.pojo.PlaceImage;
 import com.expense.expenseadmin.pojo.locationModel;

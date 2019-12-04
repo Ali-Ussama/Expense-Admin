@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.pojo.HomeViewModel;
-import com.expense.expenseadmin.adapters.RVHomeAdapter;
+import com.expense.expenseadmin.view.adapters.RVHomeAdapter;
 
 import java.util.ArrayList;
 

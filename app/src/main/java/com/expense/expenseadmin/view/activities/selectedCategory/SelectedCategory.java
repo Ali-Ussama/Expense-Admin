@@ -11,11 +11,10 @@ import android.util.Log;
 import android.widget.ViewAnimator;
 
 import com.expense.expenseadmin.R;
-import com.expense.expenseadmin.adapters.SelectedCategoryAdapter;
+import com.expense.expenseadmin.view.adapters.SelectedCategoryAdapter;
 import com.expense.expenseadmin.pojo.Model.ImageModel;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
-import com.expense.expenseadmin.pojo.RestaurantModel;
 import com.expense.expenseadmin.view.activities.Home.HomeActivity;
 
 import java.util.ArrayList;

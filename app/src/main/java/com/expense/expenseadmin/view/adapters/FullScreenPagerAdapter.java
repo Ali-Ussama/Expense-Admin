@@ -1,7 +1,6 @@
-package com.expense.expenseadmin.adapters;
+package com.expense.expenseadmin.view.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.expense.expenseadmin.R;
-import com.expense.expenseadmin.pojo.Model.ImageModel;
-import com.expense.expenseadmin.view.activities.displayImage.DisplayImage;
 import com.expense.expenseadmin.pojo.PlaceImage;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MyPagerAdapter extends PagerAdapter {
+public class FullScreenPagerAdapter extends PagerAdapter {
 
     private Context mContext;
-    private ArrayList<ImageModel> mData;
-    LayoutInflater mLayoutInflater;
+    private ArrayList<PlaceImage> mData;
+    private LayoutInflater mLayoutInflater;
     private static final String TAG = "MyPagerAdapter";
 
-    public MyPagerAdapter(Context mContext, ArrayList<ImageModel> mData) {
+    public FullScreenPagerAdapter(Context mContext, ArrayList<PlaceImage> mData ) {
         this.mContext = mContext;
         this.mData = mData;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -34,15 +30,9 @@ public class MyPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view = mLayoutInflater.inflate(R.layout.place_image_item, container, false);
+        View view = mLayoutInflater.inflate(R.layout.place_image_item ,container , false);
         ImageView imageView = view.findViewById(R.id.place_images);
-//        imageView.setImageResource(mData.get(position).getmImage());
-        Picasso.get().load(mData.get(position).getURL()).into(imageView);
-        view.setOnClickListener(view1 -> {
-            Intent i = new Intent(mContext, DisplayImage.class);
-            i.putExtra("position", position);
-            mContext.startActivity(i);
-        });
+        imageView.setImageResource(mData.get(position).getmImage());
         container.addView(view);
         return view;
     }
@@ -51,7 +41,6 @@ public class MyPagerAdapter extends PagerAdapter {
     public int getCount() {
         return mData.size();
     }
-
     @Override
     public void destroyItem(ViewGroup container, int position, @NonNull Object view) {
         container.removeView((View) view);

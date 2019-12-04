@@ -1,8 +1,7 @@
-package com.expense.expenseadmin.adapters;
+package com.expense.expenseadmin.view.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.view.activities.placeDetails.PlaceDetails;
-import com.expense.expenseadmin.pojo.RestaurantModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

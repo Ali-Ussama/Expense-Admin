@@ -1,4 +1,4 @@
-package com.expense.expenseadmin.adapters;
+package com.expense.expenseadmin.view.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
-import com.expense.expenseadmin.pojo.locationModel;
 
 import java.util.ArrayList;
 
@@ -45,7 +44,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyHold
         return data.size();
     }
 
-    class MyHolder extends RecyclerView.ViewHolder {
+    static class MyHolder extends RecyclerView.ViewHolder {
         TextView mStreet;
         TextView mCity;
 

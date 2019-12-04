@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.expense.expenseadmin.R;
-import com.expense.expenseadmin.adapters.SelectedCategoryAdapter;
+import com.expense.expenseadmin.view.adapters.SelectedCategoryAdapter;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.pojo.RestaurantModel;
 

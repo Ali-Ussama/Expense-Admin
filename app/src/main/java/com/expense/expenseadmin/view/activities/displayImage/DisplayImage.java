@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.expense.expenseadmin.R;
-import com.expense.expenseadmin.adapters.FullScreenPagerAdapter;
+import com.expense.expenseadmin.view.adapters.FullScreenPagerAdapter;
 import com.expense.expenseadmin.pojo.PlaceImage;
 
 import java.util.ArrayList;
