@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,12 +21,16 @@ import com.expense.expenseadmin.view.activities.Home.HomeActivity;
 import com.expense.expenseadmin.view.activities.mapActivity.MapsActivity;
 import com.expense.expenseadmin.view.adapters.AddLocationsRecAdapter;
 import com.expense.expenseadmin.view.adapters.AddPhotosRecAdapter;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddPlaceFragment extends Fragment implements View.OnClickListener {
+public class AddPlaceFragment extends Fragment implements View.OnClickListener , OnMapReadyCallback, GoogleMap.OnMapClickListener{
 
     @BindView(R.id.fragment_add_place_add_location_fab)
     FloatingActionButton addLocationFab;
@@ -58,6 +65,19 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.fragment_add_place_post_ad_button)
     Button mCreatePlaceButton;
 
+    @BindView(R.id.add_place_locations_bottom_sheet)
+    CardView mBottomSheetLayout;
+
+    @BindView(R.id.map_activity_add_location)
+    Button mConfirmLocation;
+
+    private static final String TAG = "MapsActivity";
+    private static final int ACCESS_LOCATION = 1;
+    private GoogleMap mMap;
+    private MapsActivity mCurrent;
+
+    BottomSheetBehavior bottomSheetBehavior;
+
     private AddPhotosRecAdapter mAddPhotosRecAdapter;
     private AddLocationsRecAdapter mAddLocationsRecAdapter;
 
@@ -85,7 +105,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = null;
@@ -104,14 +124,31 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
         try {
             ButterKnife.bind(this, view);
 
+
             initPhotosRV();
 
             initLocationsRV();
+
+            initBottomSheet();
+
             addLocationFab.setOnClickListener(this);
+            mConfirmLocation.setOnClickListener(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void initBottomSheet() {
+        try {
+
+            bottomSheetBehavior = BottomSheetBehavior.from(mBottomSheetLayout);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void initLocationsRV() {
         try {
@@ -139,11 +176,26 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v.equals(addLocationFab)) {
             try {
-                Intent intent = new Intent(getParentActivity(), MapsActivity.class);
-                getParentActivity().startActivity(intent);
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (v.equals(mConfirmLocation)) {
+            try {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }
