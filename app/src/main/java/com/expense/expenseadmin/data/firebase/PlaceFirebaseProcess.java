@@ -63,14 +63,14 @@ public class PlaceFirebaseProcess implements LocationFBListener {
                                 //initializing location result list
                                 ArrayList<LocationModel> locationsResult = new ArrayList<>();
                                 //initializing images result list
-                                ArrayList<ImageModel> imagesResult = new ArrayList<>();
+                                ArrayList<String> imagesResult = new ArrayList<>();
 
                                 //reading place data from document
                                 HashMap<String, Object> data = (HashMap<String, Object>) queryDocumentSnapshot.getData();
                                 //reading locations data from document
                                 ArrayList<Map<String, String>> locations = (ArrayList<Map<String, String>>) data.get(PlaceColumns.locationModels);
                                 //reading images data from document
-                                ArrayList<Map<String, String>> images = (ArrayList<Map<String, String>>) queryDocumentSnapshot.get(PlaceColumns.imagesURL);
+                                ArrayList<String> images = (ArrayList<String>) queryDocumentSnapshot.get(PlaceColumns.imagesURL);
 
                                 Log.i(TAG, "readPlacesByCategory(): data size = " + data.size());
                                 //extracting locations from result
@@ -138,18 +138,16 @@ public class PlaceFirebaseProcess implements LocationFBListener {
         }
     }
 
-    private void extractImages(ArrayList<ImageModel> imageModels, ArrayList<Map<String, String>> images) {
+    private void extractImages(ArrayList<String> imageModels, ArrayList<String> images) {
         try {
             //checking if images not null or empty
             if (images != null && !images.isEmpty()) {
                 Log.i(TAG, "extractImages(): images size = " + images.size());
                 //looping over images from FireStore
-                for (Map<String, String> image : images) {
+                for (String image : images) {
                     try {
-                        //extracting result into image model
-                        ImageModel imageModel = extractImage(image);
                         //adding image into list
-                        imageModels.add(imageModel);
+                        imageModels.add(image);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -162,7 +160,7 @@ public class PlaceFirebaseProcess implements LocationFBListener {
         }
     }
 
-    private PlaceModel extractPlace(QueryDocumentSnapshot queryDocumentSnapshot, HashMap<String, Object> data, ArrayList<ImageModel> imageModels, ArrayList<LocationModel> locationModels) {
+    private PlaceModel extractPlace(QueryDocumentSnapshot queryDocumentSnapshot, HashMap<String, Object> data, ArrayList<String> imageModels, ArrayList<LocationModel> locationModels) {
         return new PlaceModel(
                 queryDocumentSnapshot.getId(),
                 (String) data.get(PlaceColumns.name),
@@ -180,13 +178,6 @@ public class PlaceFirebaseProcess implements LocationFBListener {
         );
     }
 
-    private ImageModel extractImage(Map<String, String> image) {
-        return new ImageModel(
-                image.get(PlaceColumns.id),
-                image.get(PlaceColumns.placeID),
-                image.get(PlaceColumns.url));
-    }
-
     private LocationModel extractLocation(Map<String, String> location) {
         return new LocationModel(
                 location.get(PlaceColumns.id),
@@ -199,15 +190,17 @@ public class PlaceFirebaseProcess implements LocationFBListener {
                 ));
     }
 
-    public void addPlaceLocations(PlaceModel placeModel) {
-        db.collection(categories_collection).document(restaurant_document).collection(places_collection).add(placeModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+    public void addPlace(PlaceModel placeModel, PlaceFirebaseListener listener) {
+        db.collection(categories_collection).document(placeModel.getCategory()).collection(places_collection).add(placeModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 try {
-                    if (task.isComplete())
-                        Log.i(TAG, "addPlaceLocations(): task is complete");
-                    if (task.isSuccessful())
-                        Log.i(TAG, "addPlaceLocations(): task is successful");
+                    if (task.isSuccessful()) {
+                        if (listener != null) {
+                            listener.onAddPlaceSuccess(true, null);
+                        }
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -215,12 +208,16 @@ public class PlaceFirebaseProcess implements LocationFBListener {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                e.printStackTrace();
+                if (listener != null) {
+                    listener.onAddPlaceSuccess(false, e);
+                }
             }
         }).addOnCanceledListener(new OnCanceledListener() {
             @Override
             public void onCanceled() {
-                Log.i(TAG, "addPlaceLocations(): task is Canceled");
+                if (listener != null) {
+                    listener.onAddPlaceSuccess(false, null);
+                }
             }
         });
     }

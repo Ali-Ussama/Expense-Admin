@@ -35,6 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
+                android:contentDescription="@string/select_a_category"
                 android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/fragment_add_place_select_category_spinner"
                 app:layout_constraintEnd_toEndOf="@+id/fragment_add_place_select_category_spinner"
@@ -105,7 +106,7 @@
                     android:background="@color/fui_transparent"
                     android:gravity="center_vertical"
                     android:inputType="textUri"
-                    android:text="https://m.facebook.com/"
+                    android:text="@string/facebook_url"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_12ssp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -129,7 +130,7 @@
                     android:background="@color/fui_transparent"
                     android:gravity="center_vertical"
                     android:inputType="textUri"
-                    android:text="https://twitter.com/"
+                    android:text="@string/twitter_lbl"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_12ssp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -153,10 +154,27 @@
                     android:background="@color/fui_transparent"
                     android:gravity="center_vertical"
                     android:inputType="textUri"
-                    android:text="https://www.website.com/"
+                    android:text="@string/website_lbl"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_10ssp" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <EditText
+                android:id="@+id/fragment_add_place_description_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginTop="16dp"
+                android:autofillHints="@string/place_description"
+                android:background="@drawable/custom_add_place_edit_text_background"
+                android:gravity="top|start"
+                android:hint="@string/place_description"
+                android:inputType="textMultiLine"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_add_place_website_edit_text_container"
+                app:layout_constraintStart_toStartOf="@+id/fragment_add_place_website_edit_text_container"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_add_place_website_edit_text_container" />
 
             <View
                 android:id="@+id/fragment_add_place_border1"
@@ -167,7 +185,7 @@
                 android:background="@color/gray_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_add_place_website_edit_text_container" />
+                app:layout_constraintTop_toBottomOf="@id/fragment_add_place_description_edit_text" />
 
             <TextView
                 android:id="@+id/fragment_add_place_add_photo_text"

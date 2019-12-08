@@ -68,12 +68,12 @@ public class DBProcess {
         }
     }
 
-    private void insertImage(ImageModel imageModel) {
+    private void insertImage(String imageModel, String placeID) {
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(DBConfig.ImagesTable.COLUMN_PLACE_ID, imageModel.getPlaceID());
-            cv.put(DBConfig.ImagesTable.COLUMN_URL, imageModel.getURL());
+            cv.put(DBConfig.ImagesTable.COLUMN_PLACE_ID, placeID);
+            cv.put(DBConfig.ImagesTable.COLUMN_URL, imageModel);
 
             mAppContext.dbConnect().insert(DBConfig.ImagesTable.TABLE_NAME, null, cv);
             mAppContext.dbDisconnect();
@@ -101,15 +101,15 @@ public class DBProcess {
                 cv.put(DBConfig.PlacesTable.COLUMN_OKAY_COUNT, placeModel.getOkayCount());
                 cv.put(DBConfig.PlacesTable.COLUMN_DISLIKES_COUNT, placeModel.getDislikesCount());
 
-                mAppContext.dbConnect().insert(DBConfig.LocationsTable.TABLE_NAME, null, cv);
+                mAppContext.dbConnect().insert(DBConfig.PlacesTable.TABLE_NAME, null, cv);
                 mAppContext.dbDisconnect();
 
                 for (LocationModel locationModel : placeModel.getLocationModels()) {
                     insertLocation(locationModel);
                 }
 
-                for (ImageModel imageModel : placeModel.getImagesURL()) {
-                    insertImage(imageModel);
+                for (String imageModel : placeModel.getImagesURL()) {
+                    insertImage(imageModel, placeModel.getId());
                 }
             }
         } catch (Exception e) {

@@ -63,6 +63,7 @@ dependencies {
 
     //Google Play services
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
     //facebook
     implementation 'com.facebook.android:facebook-android-sdk:5.8.0'

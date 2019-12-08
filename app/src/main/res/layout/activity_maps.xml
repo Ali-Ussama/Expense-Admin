@@ -8,7 +8,8 @@
     android:layout_margin="@dimen/_8sdp"
     app:behavior_peekHeight="0dp"
     app:cardCornerRadius="@dimen/_5sdp"
-    app:layout_behavior="com.expense.expenseadmin.view.activities.mapActivity.LockableBottomSheetBehavior">
+    app:layout_behavior="com.expense.expenseadmin.view.activities.mapActivity.LockableBottomSheetBehavior"
+    tools:context="com.expense.expenseadmin.view.activities.Home.HomeActivity">
 
 
     <ScrollView
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/_12sdp">
 
-            <com.google.android.material.appbar.AppBarLayout
+            <LinearLayout
                 android:id="@+id/map_bottom_sheet_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,29 +30,45 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.Toolbar
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     android:layout_gravity="center"
                     android:background="@color/colorAccent"
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
                     android:paddingStart="@dimen/_12sdp"
                     android:paddingLeft="@dimen/_8sdp"
                     android:paddingEnd="@dimen/_8sdp"
                     android:paddingRight="@dimen/_8sdp"
-                    app:title="Choose Location"
-                    app:titleTextColor="@color/white" />
+                    android:text="@string/choose_location"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
 
-            </com.google.android.material.appbar.AppBarLayout>
+            </LinearLayout>
 
             <ImageView
+                android:id="@+id/map_activity_close_ic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:src="@drawable/ic_arrow_left"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/ic_close_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@id/map_bottom_sheet_toolbar"
-                app:layout_constraintStart_toStartOf="@id/map_bottom_sheet_toolbar"
-                app:layout_constraintTop_toTopOf="@id/map_bottom_sheet_toolbar" />
+                app:layout_constraintEnd_toEndOf="@id/map_bottom_sheet_toolbar"
+                app:layout_constraintTop_toTopOf="@id/map_bottom_sheet_toolbar"
+                android:contentDescription="@string/close_bottom_sheet" />
+
+            <ImageView
+                android:id="@+id/map_activity_undo_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/ic_undo_white_24dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/map_bottom_sheet_toolbar"
+                app:layout_constraintEnd_toStartOf="@id/map_activity_close_ic"
+                app:layout_constraintTop_toTopOf="@id/map_bottom_sheet_toolbar"
+                android:contentDescription="@string/undo_marker" />
 
             <fragment
                 android:id="@+id/map"
@@ -68,8 +85,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8sdp"
                 android:src="@drawable/ic_country_24"
+                app:layout_constraintBottom_toBottomOf="@+id/map_activity_countries_spinner"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map" />
+                app:layout_constraintTop_toTopOf="@+id/map_activity_countries_spinner" />
 
             <Spinner
                 android:id="@+id/map_activity_countries_spinner"
@@ -84,22 +102,23 @@
                 android:id="@+id/city_ic_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
                 android:src="@drawable/ic_location_city_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/map_activity_city_edit_text"
                 app:layout_constraintStart_toStartOf="@id/country_ic_iv"
-                app:layout_constraintTop_toBottomOf="@+id/country_ic_iv" />
+                app:layout_constraintTop_toTopOf="@+id/map_activity_city_edit_text" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/map_activity_city_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:background="@drawable/custom_add_place_edit_text_background"
                 android:hint="@string/city"
                 android:padding="@dimen/_4sdp"
                 android:text="Cairo"
                 android:textSize="@dimen/_12ssp"
-                app:layout_constraintEnd_toEndOf="@id/map_activity_countries_spinner"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/map_activity_countries_spinner"
                 app:layout_constraintTop_toBottomOf="@id/map_activity_countries_spinner" />
 
@@ -108,10 +127,10 @@
                 android:id="@+id/street_ic_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
                 android:src="@drawable/ic_streets_24"
+                app:layout_constraintBottom_toBottomOf="@+id/map_activity_street_edit_text"
                 app:layout_constraintStart_toStartOf="@id/city_ic_iv"
-                app:layout_constraintTop_toBottomOf="@+id/city_ic_iv" />
+                app:layout_constraintTop_toTopOf="@+id/map_activity_street_edit_text" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/map_activity_street_edit_text"
@@ -123,7 +142,7 @@
                 android:padding="@dimen/_4sdp"
                 android:text="12 Faisal St"
                 android:textSize="@dimen/_12ssp"
-                app:layout_constraintEnd_toEndOf="@id/map_activity_city_edit_text"
+                app:layout_constraintEnd_toEndOf="@+id/map_activity_city_edit_text"
                 app:layout_constraintStart_toStartOf="@id/map_activity_city_edit_text"
                 app:layout_constraintTop_toBottomOf="@id/map_activity_city_edit_text" />
 

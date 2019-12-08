@@ -68,6 +68,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "597970624733-fubq20esk2v7shkpn26abmq3rp5ef7rd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.expense.expenseadmin",
+            "certificate_hash": "2e535fb298e212ec319306dccd4a238938756a4a"
+          }
+        },
+        {
+          "client_id": "597970624733-lgr1pfl3vvc7ns0nau44nge2ugv0nesv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.expense.expenseadmin",
+            "certificate_hash": "c305cc9ae68a712f481122b5f77d315802ecffe6"
+          }
+        },
+        {
           "client_id": "597970624733-6im0i385t02j5bjlnrt17pbtk4aml90d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

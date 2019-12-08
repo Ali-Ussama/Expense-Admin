@@ -19,6 +19,7 @@ import com.expense.expenseadmin.view.adapters.MyPagerAdapter;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.pojo.PlaceImage;
 import com.expense.expenseadmin.pojo.locationModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mancj.slimchart.SlimChart;
 
 import java.util.ArrayList;
@@ -33,6 +34,10 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView 
     ViewPager viewPager;
     @BindView(R.id.circle)
     CircleIndicator circleIndicator;
+
+    @BindView(R.id.call_fab)
+    FloatingActionButton mCallFab;
+
     @BindView(R.id.seekBar_likes)
     SeekBar seekBar1;
     @BindView(R.id.seekBar_okays)
@@ -47,6 +52,10 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView 
     TextView disLikeText;
     @BindView(R.id.RV_places_location)
     RecyclerView recyclerView;
+
+    @BindView(R.id.place_details_activity_description)
+    TextView mDescription;
+
     private MyPagerAdapter myPager;
     private PlaceDetailsPresenter presenter;
 
@@ -72,6 +81,8 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView 
             presenter.getPlaceImagesList();
             presenter.getRatings();
             presenter.getChartRating();
+
+//            mDescription.setText(place.getDescription());
         } catch (Exception e) {
             e.printStackTrace();
         }

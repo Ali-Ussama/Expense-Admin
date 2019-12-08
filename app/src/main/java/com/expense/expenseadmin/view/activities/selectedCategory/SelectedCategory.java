@@ -100,8 +100,8 @@ public class SelectedCategory extends AppCompatActivity implements SelectedCateg
                     }
                     result += "\nImages\n";
 
-                    for (ImageModel image : place.getImagesURL()) {
-                        result += "place ID = " + image.getPlaceID() + " url = " + image.getURL() + "\n";
+                    for (String image : place.getImagesURL()) {
+                        result += "place ID = " + place.getId() + " url = " + image + "\n";
                     }
                     result += "---------------------------------\n";
                     Log.i(TAG, "readPlacesByCategoryFromFirebase(): " + result);

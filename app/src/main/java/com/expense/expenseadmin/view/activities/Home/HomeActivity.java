@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,10 +29,14 @@ import com.expense.expenseadmin.view.fragments.favorites.FavoriteFragment;
 import com.expense.expenseadmin.view.fragments.notifications.NotificationsFragment;
 import com.expense.expenseadmin.view.fragments.profile.ProfileFragment;
 import com.expense.expenseadmin.view.fragments.requests.RequestsFragment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -69,6 +74,8 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
 
     ArrayList<PlaceModel> places;
     private HomeActivityPresenter presenter;
+    private FusedLocationProviderClient fusedLocationClient;
+    public Location mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +85,29 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
             if (savedInstanceState == null) {
                 setFragments(new HomeFragment(), AnimationStates.BOTTOM_TO_TOP);
             }
+
+            initLocation();
             //calling init fun
             init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initLocation() {
+        try {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                mCurrentLocation = location;
+                            }
+                        }
+                    });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,6 +156,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
                             if (currFragment instanceof HomeFragment) {
                                 break;
                             } else {
+                                setActionBarTitle(getString(R.string.title_home));
                                 setFragments(new HomeFragment(), AnimationStates.LEFT_TO_RIGHT);
                                 break;
                             }
@@ -137,10 +166,14 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
                     case R.id.navigation_notifications:
                         try {
                             if (currFragment instanceof NotificationsFragment) break;
-                            if (fragment instanceof HomeFragment)
+                            if (fragment instanceof HomeFragment) {
+                                setActionBarTitle(getString(R.string.title_home));
                                 setFragments(new NotificationsFragment(), AnimationStates.RIGHT_TO_LEFT);
-                            else
+                            } else {
+                                setActionBarTitle(getString(R.string.title_notifications));
                                 setFragments(new NotificationsFragment(), AnimationStates.LEFT_TO_RIGHT);
+
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -148,10 +181,13 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
                     case R.id.navigation_favorite:
                         try {
                             if (currFragment instanceof FavoriteFragment) break;
-                            if (fragment instanceof ProfileFragment)
+                            if (fragment instanceof ProfileFragment) {
+                                setActionBarTitle(getString(R.string.title_profile));
                                 setFragments(new FavoriteFragment(), AnimationStates.LEFT_TO_RIGHT);
-                            else
+                            } else {
+                                setActionBarTitle(getString(R.string.title_favorite));
                                 setFragments(new FavoriteFragment(), AnimationStates.RIGHT_TO_LEFT);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -159,6 +195,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
                     case R.id.navigation_profile:
                         try {
                             if (currFragment instanceof ProfileFragment) break;
+                            setActionBarTitle(getString(R.string.title_profile));
                             setFragments(new ProfileFragment(), AnimationStates.RIGHT_TO_LEFT);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -167,9 +204,11 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
                 }
                 return true;
             });
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void navDrawerConfig() {
@@ -186,10 +225,12 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
 
                     case R.id.add_project_nav:// Add Project
                         if (currFragment instanceof AddProjectFragment) break;
+                        setActionBarTitle(getString(R.string.add_project));
                         setFragments(new AddProjectFragment(), states);
                         break;
 
                     case R.id.add_place_nav:// Add Place
+                        setActionBarTitle(getString(R.string.add_new_place_btn));
                         if (currFragment instanceof AddPlaceFragment) break;
                         setFragments(AddPlaceFragment.newInstance(), states);
                         break;
@@ -200,16 +241,19 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
                         break;
 
                     case R.id.requests_nav:// Requests
+                        setActionBarTitle(getString(R.string.requests_nav_lbl));
                         if (currFragment instanceof RequestsFragment) break;
                         setFragments(RequestsFragment.newInstance(), states);
                         break;
 
                     case R.id.about_us_nav:// Place
+                        setActionBarTitle(getString(R.string.about_us));
                         if (currFragment instanceof AboutUsFragment) break;
                         setFragments(new AboutUsFragment(), states);
                         break;
 
                     case R.id.contact_us_nav:
+                        setActionBarTitle(getString(R.string.contact_us));
                         if (currFragment instanceof ContactUsFragment) break;
                         setFragments(new ContactUsFragment(), states);
                         break;
@@ -234,6 +278,14 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
         }
     }
 
+    private void setActionBarTitle(String title) {
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        }
+    }
+
     private void initializeRequestCountDrawer() {
         try {
             requestsCount.setGravity(Gravity.CENTER_VERTICAL);
@@ -246,7 +298,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
         }
     }
 
-    private void setFragments(Fragment fragment, AnimationStates state) {
+    public void setFragments(Fragment fragment, AnimationStates state) {
         try {
             currFragment = fragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -277,10 +329,10 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else if (fragment instanceof HomeFragment) {
-                finish();
+//                finish();
             } else {
                 if (fragment instanceof AboutUsFragment || fragment instanceof ContactUsFragment
-                        || fragment instanceof AddProjectFragment) {
+                        || fragment instanceof AddProjectFragment || fragment instanceof AddPlaceFragment) {
                     navView.setSelectedItemId(navView.getSelectedItemId());
                 } else if (fragment instanceof FavoriteFragment || fragment instanceof NotificationsFragment
                         || fragment instanceof ProfileFragment) {
@@ -335,8 +387,8 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityListe
                     }
                     result += "\nImages\n";
 
-                    for (ImageModel image : place.getImagesURL()) {
-                        result += "place ID = " + image.getPlaceID() + " url = " + image.getURL() + "\n";
+                    for (String image : place.getImagesURL()) {
+                        result += "place ID = " + place.getId() + " url = " + image + "\n";
                     }
                     result += "---------------------------------\n";
                     Log.i(TAG, "onReadPlaceByCategory(): " + result);

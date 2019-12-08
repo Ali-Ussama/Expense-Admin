@@ -67,7 +67,7 @@
     <string name="back">back</string>
     <string name="gender_text">Male</string>
     <string name="search_title">Search</string>
-    <string name="search_hint">search...</string>
+    <string name="search_hint">search…</string>
     <string name="add_place_nav_lbl">Add Place</string>
     <string name="edit_place_nav_lbl">Edit Place</string>
     <string name="requests_nav_lbl">Requests</string>
@@ -86,6 +86,31 @@
     <string name="country">Country</string>
     <string name="title_activity_maps">Map</string>
     <string name="Confirm_location">Confirm location</string>
-
+    <string name="select_location_first">Please select location on map!</string>
+    <string name="choose_location">Choose Location</string>
+    <string name="close_bottom_sheet">Close</string>
+    <string name="undo_marker">Undo Marker</string>
+    <string name="please_choose_country">Please Choose Country</string>
+    <string name="are_you_sure_with_this_location">Add this location information?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="are_you_sure_you_want_to_delete_this_location">Delete this location?</string>
+    <string name="are_you_sure_you_want_to_delete_this_photo">Delete this Photo?</string>
+    <string name="category">Category</string>
+    <string name="please_choose_category">Please Choose Category!</string>
+    <string name="please_choose_images">Please Add Image !</string>
+    <string name="website_lbl" translatable="false">https://www.website.com/</string>
+    <string name="twitter_lbl" translatable="false">https://twitter.com/</string>
+    <string name="facebook_url" translatable="false">https://m.facebook.com/</string>
+    <string name="place_description">Add Description…</string>
+    <string name="saving">Saving…</string>
+    <string name="place_add_successfully">Place added successfully!</string>
+    <string name="error_adding_place">Error, Please try again!</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="more">Read more</string>
+    <string name="description_test">A nice place to visit and hangout with friends where you can enjoy cool music and great coffee</string>
+    <string name="place_name_test">Garden city Cafe</string>
+    <string name="social_media">Social Media</string>
 
 </resources>

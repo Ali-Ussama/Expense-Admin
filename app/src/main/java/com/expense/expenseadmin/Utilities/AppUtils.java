@@ -2,6 +2,7 @@ package com.expense.expenseadmin.Utilities;
 
 import android.content.Context;
 import android.util.Base64;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.expense.expenseadmin.R;
@@ -55,7 +56,7 @@ public class AppUtils {
                 .autoDismiss(false)
                 .cancelable(false)
                 .customView(layoutResID, false)
-                .positiveText(R.string.str_ok_lbl)
+//                .positiveText(R.string.str_ok_lbl)
                 .onPositive((dialog, which) -> dialog.dismiss())
                 .positiveColorRes(R.color.red)
                 .build();
@@ -107,5 +108,13 @@ public class AppUtils {
             //
         }
         return "data:image/jpg;base64," + imgBase64;
+    }
+
+    public static void showToast(Context context, String message) {
+        try {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

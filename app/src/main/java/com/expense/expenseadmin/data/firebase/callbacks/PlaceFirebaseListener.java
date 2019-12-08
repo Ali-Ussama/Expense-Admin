@@ -7,4 +7,6 @@ import java.util.ArrayList;
 public interface PlaceFirebaseListener {
 
     void onReadPlaceByCategory(ArrayList<PlaceModel> data);
+
+    void onAddPlaceSuccess(boolean status, Throwable t);
 }

@@ -6,7 +6,9 @@ import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaceModel implements Parcelable {
 
@@ -34,12 +36,12 @@ public class PlaceModel implements Parcelable {
 
     private int dislikesCount;
 
-    private ArrayList<ImageModel> imagesURL;
+    private ArrayList<String> imagesURL;
 
     public PlaceModel() {
     }
 
-    public PlaceModel(String id, String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl, String websiteUrl, int likesCount, int okayCount, int dislikesCount, ArrayList<LocationModel> locationModels, ArrayList<ImageModel> imagesURL) {
+    public PlaceModel(String id, String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl, String websiteUrl, int likesCount, int okayCount, int dislikesCount, ArrayList<LocationModel> locationModels, ArrayList<String> imagesURL) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -55,7 +57,7 @@ public class PlaceModel implements Parcelable {
         this.imagesURL = imagesURL;
     }
 
-    public PlaceModel(String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl, String websiteUrl, ArrayList<LocationModel> locationModels, int likesCount, int okayCount, int dislikesCount, ArrayList<ImageModel> imagesURL) {
+    public PlaceModel(String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl, String websiteUrl, ArrayList<LocationModel> locationModels, int likesCount, int okayCount, int dislikesCount, ArrayList<String> imagesURL) {
         this.name = name;
         this.category = category;
         this.phoneNumber = phoneNumber;
@@ -83,7 +85,7 @@ public class PlaceModel implements Parcelable {
         okayCount = in.readInt();
         dislikesCount = in.readInt();
         locationModels = in.createTypedArrayList(LocationModel.CREATOR);
-        imagesURL = in.createTypedArrayList(ImageModel.CREATOR);
+        imagesURL = in.createStringArrayList();
     }
 
     public static final Creator<PlaceModel> CREATOR = new Creator<PlaceModel>() {
@@ -194,11 +196,11 @@ public class PlaceModel implements Parcelable {
         this.dislikesCount = dislikesCount;
     }
 
-    public ArrayList<ImageModel> getImagesURL() {
+    public ArrayList<String> getImagesURL() {
         return imagesURL;
     }
 
-    public void setImagesURL(ArrayList<ImageModel> imagesURL) {
+    public void setImagesURL(ArrayList<String> imagesURL) {
         this.imagesURL = imagesURL;
     }
 
@@ -221,7 +223,6 @@ public class PlaceModel implements Parcelable {
         parcel.writeInt(okayCount);
         parcel.writeInt(dislikesCount);
         parcel.writeTypedList(locationModels);
-        parcel.writeTypedList(imagesURL);
-
+        parcel.writeStringList(imagesURL);
     }
 }

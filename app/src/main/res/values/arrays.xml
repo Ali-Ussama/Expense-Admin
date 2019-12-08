@@ -2,7 +2,7 @@
 <resources>
 
     <array name="categories">
-        <item>@string/select_a_category</item>
+        <item>@string/category</item>
         <item>@string/coffee</item>
         <item>@string/electronics</item>
         <item>@string/restaurant</item>
