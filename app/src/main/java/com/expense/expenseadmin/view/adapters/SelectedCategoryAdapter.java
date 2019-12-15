@@ -65,7 +65,7 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<SelectedCatego
 
                 itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, PlaceDetails.class);
-                    intent.putExtra("place", data.get(getAdapterPosition()));
+                    intent.putExtra(mContext.getString(R.string.place_intent_lbl), data.get(getAdapterPosition()));
                     mContext.startActivity(intent);
                 });
             } catch (Exception e) {

@@ -51,20 +51,23 @@ public class AddPlacePresenter implements PlaceFirebaseListener, ImageFbListener
     @Override
     public void onAddPlaceSuccess(boolean status, Throwable t) {
 
-        if (status) {
-            if (listener != null) {
-                listener.onAddPlace(true);
-            }
-        } else if (t != null) {
-            if (listener != null) {
-                listener.onAddPlace(false);
-            }
-            t.printStackTrace();
-        } else {
-            if (listener != null) {
-                listener.onAddPlace(false);
+        if (!status) {
+            if (t != null) {
+                t.printStackTrace();
             }
         }
+        if (listener != null)
+            listener.onAddPlace(status);
+    }
+
+    @Override
+    public void onEditPlaceSuccess(boolean status, Throwable t) {
+
+    }
+
+    @Override
+    public void onDeletePlace(boolean status) {
+
     }
 
     @Override

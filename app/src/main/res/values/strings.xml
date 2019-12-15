@@ -112,5 +112,14 @@
     <string name="description_test">A nice place to visit and hangout with friends where you can enjoy cool music and great coffee</string>
     <string name="place_name_test">Garden city Cafe</string>
     <string name="social_media">Social Media</string>
+    <string name="place_intent_lbl" translatable="false">place</string>
+    <string name="edit_place_btn">Save Changes</string>
+    <string name="place_updated_successfully">Place updated successfully!</string>
+    <string name="failed_to_delete_check_network">Failed, Check your network connection</string>
+    <string name="delete">Delete</string>
+    <string name="place_deleted_successfully">Place deleted successfully!</string>
+    <string name="deleting">Deleting…</string>
+    <string name="kilometer">Km</string>
+    <string name="mile">mile</string>
 
 </resources>

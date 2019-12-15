@@ -84,4 +84,11 @@
     <string name="more">المزيد</string>
     <string name="description_test">"و اصدقاءك او عائلتك فالاكلات المختلفة مكان راقي، حيث يمكنك الاستمتاع انت و اصدقاءك او عائلتك فالاكلات المختلفة "</string>
     <string name="place_name_test">شقة جاردن سيتى</string>
+    <string name="social_media">مواقع التواصل الاجتماعي</string>
+    <string name="edit_place_btn">حفظ التعديل</string>
+    <string name="place_updated_successfully">تم تعديل المكان بنجاح!</string>
+    <string name="failed_to_delete_check_network">خطأ، من فضلك تاكد من اتصالك بالانترنت!</string>
+    <string name="delete">حذف</string>
+    <string name="place_deleted_successfully">تم حذف المكان بنجاح!</string>
+    <string name="deleting">جاري الحذف…</string>
 </resources>

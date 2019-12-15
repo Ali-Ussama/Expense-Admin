@@ -9,4 +9,8 @@ public interface PlaceFirebaseListener {
     void onReadPlaceByCategory(ArrayList<PlaceModel> data);
 
     void onAddPlaceSuccess(boolean status, Throwable t);
+
+    void onEditPlaceSuccess(boolean status, Throwable t);
+
+    void onDeletePlace(boolean status);
 }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.Utilities.AppUtils;
+import com.expense.expenseadmin.view.activities.editPlace.EditActivityListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,30 +22,40 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddPhotosRecAdapter extends RecyclerView.Adapter<AddPhotosRecAdapter.viewHolder> {
+public class EditPhotosRecAdapter extends RecyclerView.Adapter<EditPhotosRecAdapter.viewHolder> {
 
     private ArrayList<File> data;
     private Context context;
+    private ArrayList<String> imageUrls;
+    EditActivityListener mListener;
 
-    public AddPhotosRecAdapter(ArrayList<File> data, Context context) {
+    public EditPhotosRecAdapter(ArrayList<File> data, ArrayList<String> imageUrls, Context context, EditActivityListener listener) {
         this.data = data;
         this.context = context;
+        this.imageUrls = imageUrls;
+        this.mListener = listener;
     }
 
     @NonNull
     @Override
-    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EditPhotosRecAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_add_place_photos_rv_row_item, parent, false);
 
-        return new viewHolder(view);
+        return new EditPhotosRecAdapter.viewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EditPhotosRecAdapter.viewHolder holder, int position) {
 
         try {
-            holder.mImageIV.setImageURI(Uri.fromFile(data.get(position)));
+            if (position < imageUrls.size()) {
+                Picasso.get().load(imageUrls.get(position)).into(holder.mImageIV);
+            } else {
+                Picasso.get().load(data.get(imageUrls.size() - position)).into(holder.mImageIV);
+//                holder.mImageIV.setImageURI(Uri.fromFile(data.get(position)));
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +63,7 @@ public class AddPhotosRecAdapter extends RecyclerView.Adapter<AddPhotosRecAdapte
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return (data.size() + imageUrls.size());
     }
 
     class viewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,7 +88,11 @@ public class AddPhotosRecAdapter extends RecyclerView.Adapter<AddPhotosRecAdapte
                 AppUtils.showConfirmationDialog(context, context.getString(R.string.are_you_sure_you_want_to_delete_this_photo), context.getString(R.string.yes), context.getString(R.string.cancel), new AppUtils.CallBack() {
                     @Override
                     public void OnPositiveClicked(MaterialDialog dlg) {
-                        data.remove(getAdapterPosition());
+                        if (getAdapterPosition() < imageUrls.size()) {
+                            imageUrls.remove(getAdapterPosition());
+                        } else {
+                            data.remove(imageUrls.size() - getAdapterPosition());
+                        }
                         notifyDataSetChanged();
                         dlg.dismiss();
                     }

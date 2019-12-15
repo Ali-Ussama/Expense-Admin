@@ -1,4 +1,15 @@
-package com.expense.expenseadmin.view.fragments.addPlace;
+package com.expense.expenseadmin.view.activities.editPlace;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
@@ -16,38 +27,32 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.Utilities.AppUtils;
-import com.expense.expenseadmin.pojo.Model.ImageModel;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
-import com.expense.expenseadmin.view.activities.Home.HomeActivity;
 import com.expense.expenseadmin.view.adapters.AddLocationsRecAdapter;
 import com.expense.expenseadmin.view.adapters.AddPhotosRecAdapter;
+import com.expense.expenseadmin.view.adapters.EditPhotosRecAdapter;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -55,7 +60,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,46 +71,45 @@ import butterknife.ButterKnife;
 
 import static com.google.android.gms.common.util.IOUtils.copyStream;
 
-public class AddPlaceFragment extends Fragment implements View.OnClickListener,
+public class EditActivity extends AppCompatActivity implements View.OnClickListener,
         OnMapReadyCallback, GoogleMap.OnMapClickListener,
-        GoogleMap.OnMyLocationChangeListener,
-        AddPlaceView {
+        GoogleMap.OnMyLocationChangeListener, EditPlaceView, EditActivityListener {
 
     private static final String IMAGE_FOLDER_NAME = "Expense";
-    @BindView(R.id.fragment_add_place_add_location_fab)
+    @BindView(R.id.edit_activity_place_add_location_fab)
     FloatingActionButton addLocationFab;
 
-    @BindView(R.id.fragment_add_place_add_photo_fab)
+    @BindView(R.id.edit_activity_place_add_photo_fab)
     FloatingActionButton addPhoto;
 
-    @BindView(R.id.fragment_add_place_select_category_spinner)
+    @BindView(R.id.edit_activity_place_select_category_spinner)
     Spinner categorySpinner;
 
-    @BindView(R.id.fragment_add_place_title_edit_text)
+    @BindView(R.id.edit_activity_place_title_edit_text)
     EditText nameET;
 
-    @BindView(R.id.fragment_add_place_phone_number_text)
+    @BindView(R.id.edit_activity_place_phone_number_text)
     EditText phoneNoET;
 
-    @BindView(R.id.fragment_add_place_description_edit_text)
+    @BindView(R.id.edit_activity_place_description_edit_text)
     EditText descriptionET;
 
-    @BindView(R.id.fragment_add_place_website_edit_text)
+    @BindView(R.id.edit_activity_place_website_edit_text)
     EditText websiteET;
 
-    @BindView(R.id.fragment_add_place_facebook_url_et)
+    @BindView(R.id.edit_activity_place_facebook_url_et)
     EditText facebookUrlET;
 
-    @BindView(R.id.fragment_add_place_twitter_edit_text)
+    @BindView(R.id.edit_activity_place_twitter_edit_text)
     EditText twitterUrlET;
 
-    @BindView(R.id.fragment_add_place_photos_rv)
+    @BindView(R.id.edit_activity_place_photos_rv)
     RecyclerView mPhotosRV;
 
-    @BindView(R.id.fragment_add_place_locations_rv)
+    @BindView(R.id.edit_activity_place_locations_rv)
     RecyclerView mLocationsRV;
 
-    @BindView(R.id.fragment_add_place_post_ad_button)
+    @BindView(R.id.edit_activity_place_post_ad_button)
     Button mCreatePlaceButton;
 
     @BindView(R.id.add_place_locations_bottom_sheet)
@@ -130,101 +133,188 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
     @BindView(R.id.map_activity_countries_spinner)
     Spinner mCountrySpinner;
 
+    @BindView(R.id.edit_activity_place_toolbar)
+    Toolbar mToolbar;
+
     private static final String TAG = "AddPlaceFragment";
     private static final String PNG = ".png";
     private static final int ACCESS_LOCATION = 1;
     private static final int REQUEST_CODE_TAKE_PICTURE = 2;
     private static final int RESULT_LOAD_IMG = 3;
-    private HomeActivity mCurrent;
+    private EditActivity mCurrent;
     private LatLng mSelectedLocation = null;
     private GoogleMap mMap;
 
     private BottomSheetBehavior bottomSheetBehavior;
-    private AddPhotosRecAdapter mAddPhotosRecAdapter;
+    private EditPhotosRecAdapter mAddPhotosRecAdapter;
     private AddLocationsRecAdapter mAddLocationsRecAdapter;
     private ArrayList<LocationModel> locationModels;
     private ArrayList<File> images;
-
-    private AddPlacePresenter mPresenter;
+    private ArrayList<String> imageUrls;
+    private EditPlacePresenter mPresenter;
 
     private File mFileTemp;
+    private PlaceModel placeModel;
 
     private MaterialDialog mProgressDlg;
+    private Location mCurrentLocation;
+    private FusedLocationProviderClient fusedLocationClient;
+    private String oldCategory;
 
-    public AddPlaceFragment() {
-        // Required empty public constructor
-    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            initLocation();
 
-    private HomeActivity getParentActivity() {
-
-        return mCurrent;
-
-    }
-
-    public static AddPlaceFragment newInstance() {
-        return new AddPlaceFragment();
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_edit);
         try {
-            mCurrent = (HomeActivity) getActivity();
-
+            mCurrent = EditActivity.this;
+            init();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = null;
+    private void init() {
         try {
-            view = inflater.inflate(R.layout.fragment_add_place, container, false);
 
-            init(view);
-        } catch (Exception e) {
-            e.printStackTrace();
+            readPlaceFromIntent();
 
-        }
-        return view;
-    }
+            ButterKnife.bind(this);
 
-    private void init(View view) {
-        try {
-            ButterKnife.bind(this, view);
-
+            initToolbar();
             initPhotosRV();
 
             initLocationsRV();
 
-            initMap(view);
+            initMap();
 
             initBottomSheet();
 
-            mPresenter = new AddPlacePresenter(mCurrent, this);
+            setViewsWithData();
+
+            mPresenter = new EditPlacePresenter(mCurrent, this);
             addPhoto.setOnClickListener(this);
             addLocationFab.setOnClickListener(this);
             mConfirmLocation.setOnClickListener(this);
             mUndoMarker.setOnClickListener(this);
             mCloseBottomSheet.setOnClickListener(this);
             mCreatePlaceButton.setOnClickListener(this);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void initMap(View view) {
+    private void initToolbar() {
+        try {
+            String title = getString(R.string.edit_place_nav_lbl).concat(" ").concat(placeModel.getName());
+            mToolbar.setTitle(title);
+            setSupportActionBar(mToolbar);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setViewsWithData() {
+        try {
+            setSpinnerWithSelectedCategory();
+
+            nameET.setText(placeModel.getName());
+            phoneNoET.setText(placeModel.getPhoneNumber());
+            facebookUrlET.setText(placeModel.getFacebookUrl());
+            twitterUrlET.setText(placeModel.getTwitterUrl());
+            websiteET.setText(placeModel.getWebsiteUrl());
+            descriptionET.setText(placeModel.getDescription());
+            locationModels.addAll(placeModel.getLocationModels());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setSpinnerWithSelectedCategory() {
+        try {
+            String[] categories = getResources().getStringArray(R.array.categories);
+
+            for (int i = 0; i < categories.length; i++) {
+                if (placeModel.getCategory().matches(categories[i])) {
+                    categorySpinner.setSelection(i);
+                }
+            }
+
+            oldCategory = placeModel.getCategory();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initLocation() {
+        try {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                mCurrentLocation = location;
+                                zoomToCurrentLocation();
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void zoomToCurrentLocation() {
+        try {
+            if (mMap != null) {
+                if (mCurrentLocation != null) {
+                    Log.i(TAG, "onMapReady(): lat = " + mCurrentLocation.getLatitude() + " Lang = " + mCurrentLocation.getLongitude());
+                    LatLng newLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLatLng, 12));
+                } else {
+                    Log.i(TAG, "onMapReady(): location is null");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readPlaceFromIntent() {
+        try {
+            placeModel = getIntent().getParcelableExtra(getString(R.string.place_intent_lbl));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initMap() {
         try {
             if (ActivityCompat.checkSelfPermission(mCurrent, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(mCurrent, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(mCurrent, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_LOCATION);
             } else {
                 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-                SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                 if (mapFragment != null) {
                     mapFragment.getMapAsync(this);
                 } else {
@@ -263,8 +353,9 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
     private void initPhotosRV() {
         try {
             images = new ArrayList<>();
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getParentActivity(), RecyclerView.HORIZONTAL, false);
-            mAddPhotosRecAdapter = new AddPhotosRecAdapter(images, mCurrent);
+            imageUrls = placeModel.getImagesURL();
+            LinearLayoutManager layoutManager = new LinearLayoutManager(mCurrent, RecyclerView.HORIZONTAL, false);
+            mAddPhotosRecAdapter = new EditPhotosRecAdapter(images, imageUrls, mCurrent, this);
             mPhotosRV.setLayoutManager(layoutManager);
             mPhotosRV.setAdapter(mAddPhotosRecAdapter);
         } catch (Exception e) {
@@ -292,14 +383,14 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             undoMarker();
         } else if (v.equals(addPhoto)) {
             if (ActivityCompat.checkSelfPermission(mCurrent, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
+                ActivityCompat.requestPermissions(mCurrent, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
             } else if (ActivityCompat.checkSelfPermission(mCurrent, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                ActivityCompat.requestPermissions(mCurrent, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
             } else {
                 showImageChoiceDlg();
             }
         } else if (v.equals(mCreatePlaceButton)) {
-            createPlace();
+            editPlace();
         }
     }
 
@@ -337,7 +428,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    private void createPlace() {
+    private void editPlace() {
         if (categorySpinner.getSelectedItemPosition() == 0) {
             AppUtils.showToast(mCurrent, getString(R.string.please_choose_category));
         } else if (nameET.getText() == null || nameET.getText().toString().isEmpty()) {
@@ -346,12 +437,11 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             phoneNoET.setError(getString(R.string.required));
         } else if (descriptionET.getText() == null || descriptionET.getText().toString().isEmpty()) {
             descriptionET.setError(getString(R.string.required));
-        } else if (images.isEmpty()) {
+        } else if (images.isEmpty() && imageUrls != null && imageUrls.isEmpty()) {
             AppUtils.showToast(mCurrent, getString(R.string.please_choose_images));
         } else if (locationModels.isEmpty()) {
             AppUtils.showToast(mCurrent, getString(R.string.select_location_first));
         } else {
-            PlaceModel placeModel = new PlaceModel();
 
             String category = categorySpinner.getSelectedItem().toString();
             String name = nameET.getText().toString();
@@ -386,7 +476,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             mProgressDlg = AppUtils.showProgressDialog(mCurrent, getString(R.string.saving));
 
             if (mPresenter != null) {
-                mPresenter.createNewPlace(placeModel, images);
+                mPresenter.editPlace(placeModel, images, imageUrls, oldCategory);
             }
         }
     }
@@ -408,7 +498,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
     private void createFile() {
         try {
             Date d = new Date();
-            String TEMP_PHOTO_FILE_NAME = "IMG_" + new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss", Locale.ENGLISH).format(d) + AddPlaceFragment.PNG;
+            String TEMP_PHOTO_FILE_NAME = "IMG_" + new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss", Locale.ENGLISH).format(d) + PNG;
 
             File rootFolder = new File(Environment.getExternalStorageDirectory(), IMAGE_FOLDER_NAME);
 
@@ -512,24 +602,25 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             mMap = googleMap;
 
 //            // Add a marker in Sydney and move the camera
-//            LatLng sydney = new LatLng(-34, 151);
+//            if (placeModel != null){
+//                if (placeModel.getLocationModels() != null && !placeModel.getLocationModels().isEmpty()){
+//                    if (placeModel.getLocationModels().get(0) != null){
+//
+//                    }
+//                }
+//            }
+//            LatLng sydney = new LatLng(placeModel.getLocationModels().get(0).getLatitude(), placeModel.getLocationModels().get(0).getLongitude());
 //            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationChangeListener(this);
             mMap.setOnMapClickListener(this);
 
             if (mMap.getMyLocation() != null)
-                mCurrent.mCurrentLocation = mMap.getMyLocation();
+                mCurrentLocation = mMap.getMyLocation();
 
-            if (mCurrent.mCurrentLocation != null) {
-                Log.i(TAG, "onMapReady(): lat = " + mCurrent.mCurrentLocation.getLatitude() + " Lang = " + mCurrent.mCurrentLocation.getLongitude());
-                LatLng newLatLng = new LatLng(mCurrent.mCurrentLocation.getLatitude(), mCurrent.mCurrentLocation.getLongitude());
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLatLng, 12));
-            } else {
-                Log.i(TAG, "onMapReady(): location is null");
-            }
+            zoomToCurrentLocation();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -604,6 +695,44 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             }
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_place_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.delete_place) {
+            showDeleteDialog();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeleteDialog() {
+        try {
+            String message = getString(R.string.delete).concat(" ").concat(placeModel.getName()).concat(" ?");
+            AppUtils.showConfirmationDialog(mCurrent, message, getString(R.string.delete), getString(R.string.cancel), new AppUtils.CallBack() {
+                @Override
+                public void OnPositiveClicked(MaterialDialog dlg) {
+                    dlg.dismiss();
+                    mProgressDlg = AppUtils.showProgressDialog(mCurrent, getString(R.string.deleting));
+                    mPresenter.deletePlace(placeModel);
+                }
+
+                @Override
+                public void OnNegativeClicked(MaterialDialog dlg) {
+                    dlg.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -789,18 +918,32 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onAddPlace(boolean status) {
+    public void onEditPlace(boolean status) {
 
         if (mProgressDlg != null) {
             mProgressDlg.dismiss();
         }
         if (status) {
-            AppUtils.showToast(mCurrent, getString(R.string.place_add_successfully));
+            AppUtils.showToast(mCurrent, getString(R.string.place_updated_successfully));
         } else {
             AppUtils.showToast(mCurrent, getString(R.string.error_adding_place));
         }
 
-        resetViews();
+        finish();
+    }
+
+    @Override
+    public void onDeletePlace(boolean status) {
+        if (mProgressDlg != null) {
+            mProgressDlg.dismiss();
+        }
+
+        if (status) {
+            AppUtils.showToast(mCurrent, getString(R.string.place_deleted_successfully));
+            finish();
+        } else {
+            AppUtils.showToast(mCurrent, getString(R.string.failed_to_delete_check_network));
+        }
     }
 
     private void resetViews() {
@@ -822,5 +965,15 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onRemovePhoto(int position) {
+
+    }
+
+    @Override
+    public void onRemovePlace(int position) {
+
     }
 }

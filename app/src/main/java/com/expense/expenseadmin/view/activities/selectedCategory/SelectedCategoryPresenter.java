@@ -64,6 +64,16 @@ class SelectedCategoryPresenter implements PlaceFirebaseListener {
 
     }
 
+    @Override
+    public void onEditPlaceSuccess(boolean status, Throwable t) {
+
+    }
+
+    @Override
+    public void onDeletePlace(boolean status) {
+
+    }
+
     private void savePlacesIntoSQLite(ArrayList<PlaceModel> data) {
         try {
             if (!data.isEmpty()) {

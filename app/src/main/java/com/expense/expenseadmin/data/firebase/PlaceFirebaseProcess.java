@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.expense.expenseadmin.Utilities.PlaceColumns;
 import com.expense.expenseadmin.data.firebase.callbacks.LocationFBListener;
@@ -12,12 +13,16 @@ import com.expense.expenseadmin.data.sqlite.DBProcess;
 import com.expense.expenseadmin.pojo.Model.ImageModel;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
+import com.expense.expenseadmin.view.activities.editPlace.EditPlacePresenter;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -229,5 +234,74 @@ public class PlaceFirebaseProcess implements LocationFBListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onEditPlace(PlaceModel place, String oldCategory, EditPlacePresenter listener) {
+        try {
+            Log.i(TAG, "onEditPlace(): is called");
+
+            if (!oldCategory.matches(place.getCategory())) {
+                db.collection(categories_collection).document(oldCategory).collection(places_collection).document(place.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.i(TAG, "onEditPlace(): place " + place.getName() + " in " + oldCategory + " is deleted Successfully");
+                    }
+                });
+            }
+            applyPlaceEdit(place);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void applyPlaceEdit(PlaceModel place) {
+        try {
+
+            db.collection(categories_collection).document(place.getCategory()).collection(places_collection).document(place.getId()).set(place).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (callback != null) {
+                        callback.onEditPlaceSuccess(true, null);
+                    }
+                }
+            }).addOnFailureListener(e -> {
+                if (callback != null) {
+                    callback.onEditPlaceSuccess(false, e);
+                }
+            }).addOnCanceledListener(() -> {
+                if (callback != null) {
+                    callback.onEditPlaceSuccess(false, null);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePlace(PlaceModel place) {
+
+        db.collection(categories_collection).document(place.getCategory()).collection(places_collection).document(place.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    if (callback != null) {
+                        callback.onDeletePlace(true);
+                    }
+                } else if (task.isCanceled()) {
+                    if (callback != null) {
+                        callback.onDeletePlace(false);
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                if (callback != null) {
+                    callback.onDeletePlace(false);
+                }
+            }
+        });
     }
 }

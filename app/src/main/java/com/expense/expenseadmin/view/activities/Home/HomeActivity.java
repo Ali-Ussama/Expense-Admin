@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.data.firebase.PlaceFirebaseProcess;
-import com.expense.expenseadmin.data.firebase.callbacks.PlaceFirebaseListener;
-import com.expense.expenseadmin.pojo.Model.ImageModel;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.view.activities.signInUp.SignInActivity;

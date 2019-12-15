@@ -88,6 +88,23 @@ public class PlaceModel implements Parcelable {
         imagesURL = in.createStringArrayList();
     }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(category);
+        parcel.writeString(phoneNumber);
+        parcel.writeString(description);
+        parcel.writeString(facebookUrl);
+        parcel.writeString(twitterUrl);
+        parcel.writeString(websiteUrl);
+        parcel.writeInt(likesCount);
+        parcel.writeInt(okayCount);
+        parcel.writeInt(dislikesCount);
+        parcel.writeTypedList(locationModels);
+        parcel.writeStringList(imagesURL);
+    }
+
     public static final Creator<PlaceModel> CREATOR = new Creator<PlaceModel>() {
         @Override
         public PlaceModel createFromParcel(Parcel in) {
@@ -209,20 +226,5 @@ public class PlaceModel implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(name);
-        parcel.writeString(phoneNumber);
-        parcel.writeString(description);
-        parcel.writeString(category);
-        parcel.writeString(facebookUrl);
-        parcel.writeString(twitterUrl);
-        parcel.writeString(websiteUrl);
-        parcel.writeInt(likesCount);
-        parcel.writeInt(okayCount);
-        parcel.writeInt(dislikesCount);
-        parcel.writeTypedList(locationModels);
-        parcel.writeStringList(imagesURL);
-    }
+
 }
