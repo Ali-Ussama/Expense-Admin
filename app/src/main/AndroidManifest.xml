@@ -24,8 +24,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activities.editPlace.EditActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"/>
+        <activity
+            android:name=".view.activities.editPlace.EditActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -80,7 +81,12 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
         <activity
             android:name=".view.activities.placeDetails.PlaceDetails"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".view.activities.selectedCategory.SelectedCategory"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />

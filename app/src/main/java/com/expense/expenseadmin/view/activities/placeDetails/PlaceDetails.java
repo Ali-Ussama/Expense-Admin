@@ -1,16 +1,5 @@
 package com.expense.expenseadmin.view.activities.placeDetails;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.widget.ContentLoadingProgressBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Intent;
@@ -26,25 +15,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.expense.expenseadmin.R;
-import com.expense.expenseadmin.Utilities.AppUtils;
 import com.expense.expenseadmin.Utilities.NumberUtils;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
-import com.expense.expenseadmin.view.activities.editPlace.EditActivity;
-import com.expense.expenseadmin.view.adapters.LocationAdapter;
-import com.expense.expenseadmin.view.adapters.MyPagerAdapter;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.pojo.PlaceImage;
 import com.expense.expenseadmin.pojo.locationModel;
+import com.expense.expenseadmin.view.activities.editPlace.EditActivity;
+import com.expense.expenseadmin.view.adapters.LocationAdapter;
+import com.expense.expenseadmin.view.adapters.MyPagerAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.core.utilities.Utilities;
 import com.mancj.slimchart.SlimChart;
 
 import java.util.ArrayList;
@@ -106,6 +101,9 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView,
 
     @BindView(R.id.place_details_activity_facebook)
     ImageView mFacebookIV;
+
+    @BindView(R.id.place_details_activity_instagram)
+    ImageView mInstagramIV;
 
     @BindView(R.id.place_details_activity_twitter)
     ImageView mTwitterIV;
@@ -177,7 +175,7 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView,
 
             initToolbar();
             initImagesRV();
-
+            initSocialMedia();
             initLocation();
             initRatings();
 
@@ -195,7 +193,30 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView,
             mFacebookIV.setOnClickListener(this);
             mTwitterIV.setOnClickListener(this);
             mWebsiteIV.setOnClickListener(this);
+            mInstagramIV.setOnClickListener(this);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initSocialMedia() {
+        try {
+            if (place.getFacebookUrl() == null || place.getFacebookUrl().matches("none")) {
+                mFacebookIV.setVisibility(View.GONE);
+            }
+
+            if (place.getWebsiteUrl() == null || place.getWebsiteUrl().matches("none")) {
+                mTwitterIV.setVisibility(View.GONE);
+            }
+
+            if (place.getTwitterUrl() == null || place.getTwitterUrl().matches("none")) {
+                mWebsiteIV.setVisibility(View.GONE);
+            }
+
+            if (place.getInstagramUrl() == null || place.getInstagramUrl().matches("none")) {
+                mInstagramIV.setVisibility(View.GONE);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -457,20 +478,53 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView,
             handleTwitterIV();
         } else if (v.equals(mWebsiteIV)) {
             handleWebsiteIV();
+        } else if (v.equals(mInstagramIV)) {
+            handleInstagramIV();
         }
     }
 
     private void handleWebsiteIV() {
         try {
-
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+            String facebookUrl = place.getWebsiteUrl();
+            facebookIntent.setData(Uri.parse(facebookUrl));
+            startActivity(facebookIntent);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void handleInstagramIV() {
+        try {
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+            String facebookUrl = place.getWebsiteUrl();
+            facebookIntent.setData(Uri.parse(facebookUrl));
+            startActivity(facebookIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //method to get the right URL to use in the intent
+//    public String getFacebookPageURL(Context context) {
+//        PackageManager packageManager = context.getPackageManager();
+//        try {
+//            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+//            if (versionCode >= 3002850) { //newer versions of fb app
+//                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+//            } else { //older versions of fb app
+//                return "fb://page/" + FACEBOOK_PAGE_ID;
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            return FACEBOOK_URL; //normal web url
+//        }
+//    }
     private void handleTwitterIV() {
         try {
-
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+            String facebookUrl = place.getTwitterUrl();
+            facebookIntent.setData(Uri.parse(facebookUrl));
+            startActivity(facebookIntent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -478,7 +532,10 @@ public class PlaceDetails extends AppCompatActivity implements PlaceDetailsView,
 
     private void handleFacebookIV() {
         try {
-
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+            String facebookUrl = place.getFacebookUrl();
+            facebookIntent.setData(Uri.parse(facebookUrl));
+            startActivity(facebookIntent);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -28,6 +28,8 @@ public class PlaceModel implements Parcelable {
 
     private String websiteUrl;
 
+    private String instagramUrl;
+
     private ArrayList<LocationModel> locationModels;
 
     private int likesCount;
@@ -41,7 +43,7 @@ public class PlaceModel implements Parcelable {
     public PlaceModel() {
     }
 
-    public PlaceModel(String id, String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl, String websiteUrl, int likesCount, int okayCount, int dislikesCount, ArrayList<LocationModel> locationModels, ArrayList<String> imagesURL) {
+    public PlaceModel(String id, String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl,String instagramUrl, String websiteUrl, int likesCount, int okayCount, int dislikesCount, ArrayList<LocationModel> locationModels, ArrayList<String> imagesURL) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -49,6 +51,7 @@ public class PlaceModel implements Parcelable {
         this.description = description;
         this.facebookUrl = facebookUrl;
         this.twitterUrl = twitterUrl;
+        this.instagramUrl = instagramUrl;
         this.websiteUrl = websiteUrl;
         this.likesCount = likesCount;
         this.okayCount = okayCount;
@@ -57,13 +60,14 @@ public class PlaceModel implements Parcelable {
         this.imagesURL = imagesURL;
     }
 
-    public PlaceModel(String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl, String websiteUrl, ArrayList<LocationModel> locationModels, int likesCount, int okayCount, int dislikesCount, ArrayList<String> imagesURL) {
+    public PlaceModel(String name, String category, String phoneNumber, String description, String facebookUrl, String twitterUrl,String instagramUrl ,String websiteUrl, ArrayList<LocationModel> locationModels, int likesCount, int okayCount, int dislikesCount, ArrayList<String> imagesURL) {
         this.name = name;
         this.category = category;
         this.phoneNumber = phoneNumber;
         this.description = description;
         this.facebookUrl = facebookUrl;
         this.twitterUrl = twitterUrl;
+        this.instagramUrl = instagramUrl;
         this.websiteUrl = websiteUrl;
         this.locationModels = locationModels;
         this.likesCount = likesCount;
@@ -179,6 +183,14 @@ public class PlaceModel implements Parcelable {
 
     public void setWebsiteUrl(String websiteUrl) {
         this.websiteUrl = websiteUrl;
+    }
+
+    public String getInstagramUrl() {
+        return instagramUrl;
+    }
+
+    public void setInstagramUrl(String instagramUrl) {
+        this.instagramUrl = instagramUrl;
     }
 
     public ArrayList<LocationModel> getLocationModels() {

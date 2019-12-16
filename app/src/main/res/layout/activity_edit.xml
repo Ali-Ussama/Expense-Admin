@@ -155,6 +155,30 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_activity_place_instagram_edit_text_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/custom_add_place_edit_text_background"
+                android:hint="@string/instagram_hint"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_activity_place_twitter_edit_text_container">
+
+                <EditText
+                    android:id="@+id/edit_activity_place_instagram_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/fui_transparent"
+                    android:gravity="center_vertical"
+                    android:inputType="textUri"
+                    android:text="@string/instagram_lbl"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_10ssp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_activity_place_website_edit_text_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,7 +188,7 @@
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_activity_place_twitter_edit_text_container">
+                app:layout_constraintTop_toBottomOf="@id/edit_activity_place_instagram_edit_text_container">
 
                 <EditText
                     android:id="@+id/edit_activity_place_website_edit_text"

@@ -7,6 +7,7 @@ public class PlaceColumns {
     public static String phoneNumber = "phoneNumber";
     public static String facebookUrl = "facebookUrl";
     public static String twitterUrl = "twitterUrl";
+    public static String instagramUrl = "instagramUrl";
     public static String websiteUrl = "websiteUrl";
     public static String likesCount = "likesCount";
     public static String okayCount = "okayCount";

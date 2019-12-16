@@ -1,16 +1,5 @@
 package com.expense.expenseadmin.view.activities.editPlace;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +17,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,13 +24,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.Utilities.AppUtils;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.view.adapters.AddLocationsRecAdapter;
-import com.expense.expenseadmin.view.adapters.AddPhotosRecAdapter;
 import com.expense.expenseadmin.view.adapters.EditPhotosRecAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -102,6 +100,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     @BindView(R.id.edit_activity_place_twitter_edit_text)
     EditText twitterUrlET;
+
+    @BindView(R.id.edit_activity_place_instagram_edit_text)
+    EditText instagramUrlET;
 
     @BindView(R.id.edit_activity_place_photos_rv)
     RecyclerView mPhotosRV;
@@ -235,9 +236,22 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
             nameET.setText(placeModel.getName());
             phoneNoET.setText(placeModel.getPhoneNumber());
-            facebookUrlET.setText(placeModel.getFacebookUrl());
-            twitterUrlET.setText(placeModel.getTwitterUrl());
-            websiteET.setText(placeModel.getWebsiteUrl());
+
+            if (placeModel.getFacebookUrl() != null && !placeModel.getFacebookUrl().matches("none")) {
+                facebookUrlET.setText(placeModel.getFacebookUrl());
+            }
+            if (placeModel.getInstagramUrl() != null && !placeModel.getInstagramUrl().matches("none")) {
+                instagramUrlET.setText(placeModel.getInstagramUrl());
+            }
+
+            if (placeModel.getTwitterUrl() != null && !placeModel.getTwitterUrl().matches("none")) {
+                twitterUrlET.setText(placeModel.getTwitterUrl());
+            }
+
+            if (placeModel.getWebsiteUrl() != null && !placeModel.getWebsiteUrl().matches("none")) {
+                websiteET.setText(placeModel.getWebsiteUrl());
+            }
+
             descriptionET.setText(placeModel.getDescription());
             locationModels.addAll(placeModel.getLocationModels());
 

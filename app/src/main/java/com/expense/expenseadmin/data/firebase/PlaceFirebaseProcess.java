@@ -174,6 +174,7 @@ public class PlaceFirebaseProcess implements LocationFBListener {
                 (String) data.get(PlaceColumns.description),
                 (String) data.get(PlaceColumns.facebookUrl),
                 (String) data.get(PlaceColumns.twitterUrl),
+                (String) data.get(PlaceColumns.instagramUrl),
                 (String) data.get(PlaceColumns.websiteUrl),
                 Integer.parseInt(String.valueOf(data.get(PlaceColumns.likesCount))),
                 Integer.parseInt(String.valueOf(data.get(PlaceColumns.okayCount))),

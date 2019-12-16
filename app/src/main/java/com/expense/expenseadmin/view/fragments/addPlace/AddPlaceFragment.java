@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.expense.expenseadmin.R;
 import com.expense.expenseadmin.Utilities.AppUtils;
-import com.expense.expenseadmin.pojo.Model.ImageModel;
 import com.expense.expenseadmin.pojo.Model.LocationModel;
 import com.expense.expenseadmin.pojo.Model.PlaceModel;
 import com.expense.expenseadmin.view.activities.Home.HomeActivity;
@@ -55,7 +54,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,6 +97,9 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
 
     @BindView(R.id.fragment_add_place_twitter_edit_text)
     EditText twitterUrlET;
+
+    @BindView(R.id.fragment_add_place_instagram_edit_text)
+    EditText instagramUrlET;
 
     @BindView(R.id.fragment_add_place_photos_rv)
     RecyclerView mPhotosRV;
@@ -360,7 +361,7 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             String facebookUrl = "";
             String twitterUrl = "";
             String websiteUrl = "";
-
+            String instagramUrl = "";
             if (facebookUrlET.getText() != null && !facebookUrlET.getText().toString().isEmpty()) {
                 facebookUrl = facebookUrlET.getText().toString();
             }
@@ -372,7 +373,9 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             if (websiteET.getText() != null && !websiteET.getText().toString().isEmpty()) {
                 websiteUrl = websiteET.getText().toString();
             }
-
+            if (instagramUrlET.getText() != null && !instagramUrlET.getText().toString().isEmpty()) {
+                instagramUrl = instagramUrlET.getText().toString();
+            }
             placeModel.setCategory(category);
             placeModel.setName(name);
             placeModel.setPhoneNumber(phoneNo);
@@ -380,6 +383,8 @@ public class AddPlaceFragment extends Fragment implements View.OnClickListener,
             placeModel.setFacebookUrl(facebookUrl);
             placeModel.setTwitterUrl(twitterUrl);
             placeModel.setWebsiteUrl(websiteUrl);
+            placeModel.setInstagramUrl(instagramUrl);
+
             placeModel.setLocationModels(locationModels);
 
 
